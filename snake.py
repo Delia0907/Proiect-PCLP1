@@ -9,20 +9,23 @@ class SNAKE:
         self.newblock = False
 
     def draw_snake(self):
+        #pentru marimea snake-ului
         for block in self.body:
             x_pos = int(block.x * cell_size)
             y_pos = int(block.y * cell_size)
-            #ca metoda fruct
+            #se deseneaza snake-ul ca patrate inlatuite
             block_rect = pygame.Rect(x_pos,y_pos,cell_size,cell_size)
             pygame.draw.rect(screen,(pygame.Color('blue')),block_rect)
 
     def move_snake(self):
+        #se creste sarpele miscandu-l cu o pozitie in directie fara sa se taie ultimul vector
         if self.newblock == True:
             body_copy = self.body[:]
             body_copy.insert(0,body_copy[0] + self.direction)
             self.body = body_copy[:]
             self.newblock = False
         else:
+        #se misca sarpele miscandu-l cu o pozitie in directie dar se taie utlima pozitie pentru a pastra marimea
            body_copy = self.body[:-1]
            body_copy.insert(0,body_copy[0] + self.direction)
            self.body = body_copy[:]
@@ -40,11 +43,13 @@ class FRUCT:
         #pygame.Rect are nevoie de int dar ii dam float(valorile dintr-un vector sunt de tip float)
         fruit_rect = pygame.Rect(int(self.pos.x*cell_size),int(self.pos.y *cell_size),cell_size,cell_size)
         pygame.draw.rect(screen,(255,0,0),fruit_rect)
+    #se aleg x,y(coordonate dintr-un vector) la intamplare
     def randomize(self):
         self.x = random.randint(1,cell_number - 3)
         self.y = random.randint(1,cell_number- 3)
         self.pos = pygame.math.Vector2(self.x,self.y)
 class MAIN:
+    #folosita pentru ca codul sa arate mai bine + snake si fruct in aceeasi metoda -> mai usor sa realizez munch
     def __init__(self):
         self.snake = SNAKE()
         self.fruit = FRUCT()
